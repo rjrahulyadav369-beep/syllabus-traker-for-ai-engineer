@@ -53,9 +53,6 @@ This website was designed and built with the assistance of artificial intelligen
 
 Feel free to contribute to this project and help improve the syllabus tracking experience for AI engineers!
 
-## License
-
-This project is open source and available under the MIT License.
 
 ---
 
