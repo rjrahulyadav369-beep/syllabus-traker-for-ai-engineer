@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Rahul Yadav | AI Engineer Roadmap Tracker</title>
+<title>AI Roadmap Tracker</title>
 
 <style>
 *{
@@ -17,6 +17,12 @@ body{
   background: radial-gradient(circle at top,#0f172a,#020617);
   color:#e2e8f0;
   min-height:100vh;
+  transition: background 0.3s;
+}
+
+body.light-mode{
+  background: radial-gradient(circle at top,#f8fafc,#e2e8f0);
+  color:#1e293b;
 }
 
 .container{
@@ -25,14 +31,78 @@ body{
   padding:20px;
 }
 
-/* HEADER */
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
 h1{
   text-align:center;
-  margin:20px 0;
+  flex:1;
   font-size:30px;
   background: linear-gradient(90deg,#38bdf8,#22c55e);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
+}
+
+.theme-toggle{
+  background:rgba(255,255,255,0.1);
+  border:none;
+  color:white;
+  padding:8px 12px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:18px;
+  transition:0.3s;
+}
+
+body.light-mode .theme-toggle{
+  background:rgba(0,0,0,0.1);
+  color:#1e293b;
+}
+
+.theme-toggle:hover{
+  transform:scale(1.1);
+}
+
+/* STATS */
+.stats{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:10px;
+  margin-bottom:20px;
+}
+
+.stat-card{
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  padding:15px;
+  border-radius:10px;
+  text-align:center;
+  border:1px solid rgba(255,255,255,0.1);
+}
+
+body.light-mode .stat-card{
+  background: rgba(0,0,0,0.05);
+  border:1px solid rgba(0,0,0,0.1);
+}
+
+.stat-value{
+  font-size:24px;
+  font-weight:bold;
+  color:#22c55e;
+}
+
+.stat-label{
+  font-size:12px;
+  color:#94a3b8;
+  margin-top:5px;
+}
+
+body.light-mode .stat-label{
+  color:#64748b;
 }
 
 /* INPUT PANEL */
@@ -43,17 +113,53 @@ h1{
   border-radius:15px;
   margin-bottom:20px;
   box-shadow: 0 0 20px rgba(0,0,0,0.4);
+  border:1px solid rgba(255,255,255,0.1);
 }
 
-input, select{
+body.light-mode .panel{
+  background: rgba(0,0,0,0.05);
+  border:1px solid rgba(0,0,0,0.1);
+}
+
+.panel-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-bottom:10px;
+}
+
+@media(max-width:600px){
+  .panel-row{
+    grid-template-columns:1fr;
+  }
+}
+
+input, select, textarea{
   padding:10px;
   border-radius:10px;
   border:none;
   outline:none;
   margin:5px;
-  width: 100%;
+  width: calc(100% - 10px);
   background:#0b1220;
   color:white;
+  font-family: inherit;
+}
+
+body.light-mode input, 
+body.light-mode select, 
+body.light-mode textarea{
+  background:#f0f4f8;
+  color:#1e293b;
+}
+
+textarea{
+  resize:vertical;
+  min-height:60px;
+}
+
+input::placeholder, select::placeholder{
+  color:#64748b;
 }
 
 button{
@@ -82,6 +188,10 @@ button:hover{
   margin-top:10px;
 }
 
+body.light-mode .progress-bar{
+  background:#cbd5e1;
+}
+
 .progress{
   height:100%;
   width:0%;
@@ -92,6 +202,45 @@ button:hover{
   transition:0.4s;
 }
 
+/* CONTROLS */
+.controls{
+  display:flex;
+  gap:10px;
+  margin-bottom:20px;
+  flex-wrap:wrap;
+}
+
+.search-box{
+  flex:1;
+  min-width:200px;
+}
+
+.filter-btn, .export-btn, .import-btn, .clear-btn{
+  padding:10px 14px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  background:rgba(255,255,255,0.1);
+  color:white;
+  font-weight:bold;
+  transition:0.3s;
+  border:1px solid rgba(255,255,255,0.2);
+}
+
+body.light-mode .filter-btn,
+body.light-mode .export-btn,
+body.light-mode .import-btn,
+body.light-mode .clear-btn{
+  background:rgba(0,0,0,0.1);
+  color:#1e293b;
+  border:1px solid rgba(0,0,0,0.2);
+}
+
+.filter-btn:hover, .export-btn:hover, .import-btn:hover, .clear-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
 /* CARD */
 .card{
   background: rgba(255,255,255,0.05);
@@ -99,14 +248,47 @@ button:hover{
   padding:15px;
   border-radius:15px;
   margin:10px 0;
+  border:1px solid rgba(255,255,255,0.1);
+}
+
+body.light-mode .card{
+  background: rgba(0,0,0,0.05);
+  border:1px solid rgba(0,0,0,0.1);
+}
+
+.card h3{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+  padding-bottom:10px;
+  border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+body.light-mode .card h3{
+  border-bottom:1px solid rgba(0,0,0,0.1);
+}
+
+.category-progress{
+  font-size:12px;
+  color:#94a3b8;
+}
+
+body.light-mode .category-progress{
+  color:#64748b;
 }
 
 .topic{
   display:flex;
   justify-content:space-between;
-  padding:8px;
-  border-bottom:1px solid rgba(255,255,255,0.1);
-  align-items:center;
+  padding:12px 8px;
+  border-bottom:1px solid rgba(255,255,255,0.05);
+  align-items:flex-start;
+  gap:10px;
+}
+
+body.light-mode .topic{
+  border-bottom:1px solid rgba(0,0,0,0.05);
 }
 
 .topic:last-child{
@@ -116,10 +298,45 @@ button:hover{
 .left{
   display:flex;
   gap:10px;
-  align-items:center;
+  align-items:flex-start;
+  flex:1;
 }
 
-.delete{
+.topic-info{
+  flex:1;
+}
+
+.topic-name{
+  font-weight:500;
+  display:block;
+  margin-bottom:4px;
+}
+
+.topic-note{
+  font-size:12px;
+  color:#94a3b8;
+  margin:4px 0;
+}
+
+body.light-mode .topic-note{
+  color:#64748b;
+}
+
+.topic-date{
+  font-size:11px;
+  color:#475569;
+}
+
+body.light-mode .topic-date{
+  color:#94a3b8;
+}
+
+.topic-actions{
+  display:flex;
+  gap:5px;
+}
+
+.delete, .edit-btn{
   background:red;
   border:none;
   color:white;
@@ -127,10 +344,127 @@ button:hover{
   border-radius:6px;
   cursor:pointer;
   font-size:12px;
+  transition:0.2s;
+  width:auto;
+  margin:0;
+}
+
+.edit-btn{
+  background:#3b82f6;
+}
+
+.delete:hover, .edit-btn:hover{
+  transform:scale(1.1);
 }
 
 small{
   color:#94a3b8;
+}
+
+body.light-mode small{
+  color:#64748b;
+}
+
+/* MODAL */
+.modal{
+  display:none;
+  position:fixed;
+  z-index:1000;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.7);
+}
+
+.modal.show{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.modal-content{
+  background: #1e293b;
+  padding:25px;
+  border-radius:15px;
+  max-width:500px;
+  width:90%;
+  box-shadow:0 10px 40px rgba(0,0,0,0.5);
+}
+
+body.light-mode .modal-content{
+  background:#f1f5f9;
+  color:#1e293b;
+}
+
+.modal-header{
+  font-size:20px;
+  font-weight:bold;
+  margin-bottom:20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.close-btn{
+  background:none;
+  border:none;
+  color:white;
+  font-size:24px;
+  cursor:pointer;
+  padding:0;
+  width:auto;
+  margin:0;
+}
+
+body.light-mode .close-btn{
+  color:#1e293b;
+}
+
+.modal-input{
+  width:100%;
+  padding:10px;
+  margin:10px 0;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,0.2);
+  background:#0b1220;
+  color:white;
+  font-family:inherit;
+}
+
+body.light-mode .modal-input{
+  background:#f0f4f8;
+  color:#1e293b;
+  border:1px solid rgba(0,0,0,0.2);
+}
+
+.empty-state{
+  text-align:center;
+  padding:40px;
+  color:#94a3b8;
+}
+
+body.light-mode .empty-state{
+  color:#64748b;
+}
+
+@media(max-width:600px){
+  h1{
+    font-size:24px;
+  }
+
+  .header{
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .controls{
+    flex-direction:column;
+  }
+
+  .search-box{
+    width:100%;
+  }
 }
 </style>
 </head>
@@ -139,29 +473,32 @@ small{
 
 <div class="container">
 
-<!-- BRANDING HEADER -->
-<h1>
-  🚀 Rahul Yadav’s AI Roadmap Tracker
-  <span style="font-size:14px;display:block;color:#94a3b8;margin-top:5px;">
-    AI Engineer Roadmap Dashboard
-  </span>
-</h1>
+<div class="header">
+  <h1>🚀 AI Roadmap Tracker</h1>
+  <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark/light mode">🌙</button>
+</div>
 
-<!-- INPUT PANEL -->
+<!-- STATS -->
+<div class="stats" id="stats"></div>
+
+<!-- ADD PANEL -->
 <div class="panel">
 
-  <input id="topicInput" placeholder="Enter new topic (e.g. Transformers, OS, CNN)" />
+  <div class="panel-row">
+    <input id="topicInput" placeholder="Enter new topic (e.g. Transformers, OS, CNN)" />
+    <select id="category">
+      <option>Python</option>
+      <option>DSA</option>
+      <option>Core CS</option>
+      <option>Machine Learning</option>
+      <option>Deep Learning</option>
+      <option>NLP</option>
+      <option>Computer Vision</option>
+      <option>MLOps</option>
+    </select>
+  </div>
 
-  <select id="category">
-    <option>Python</option>
-    <option>DSA</option>
-    <option>Core CS</option>
-    <option>Machine Learning</option>
-    <option>Deep Learning</option>
-    <option>NLP</option>
-    <option>Computer Vision</option>
-    <option>MLOps</option>
-  </select>
+  <textarea id="noteInput" placeholder="Add optional notes/resources (e.g., https://... or learning tips)"></textarea>
 
   <button onclick="addTopic()">➕ Add Topic</button>
 
@@ -171,8 +508,32 @@ small{
 
 </div>
 
+<!-- CONTROLS -->
+<div class="controls">
+  <input type="text" class="search-box" id="searchInput" placeholder="🔍 Search topics..." onkeyup="filterTopics()">
+  <button class="filter-btn" onclick="showCategoryFilter()">📊 Filter</button>
+  <button class="export-btn" onclick="exportData()">📥 Export</button>
+  <button class="import-btn" onclick="document.getElementById('importFile').click()">📤 Import</button>
+  <input type="file" id="importFile" style="display:none;" accept=".json" onchange="importData(event)">
+  <button class="clear-btn" onclick="clearAll()">🗑️ Clear All</button>
+</div>
+
 <div id="content"></div>
 
+</div>
+
+<!-- EDIT MODAL -->
+<div id="editModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span>Edit Topic</span>
+      <button class="close-btn" onclick="closeEditModal()">&times;</button>
+    </div>
+    <input type="text" id="editTopicInput" class="modal-input" placeholder="Topic name">
+    <textarea id="editNoteInput" class="modal-input" placeholder="Notes/resources" style="min-height:80px;"></textarea>
+    <button onclick="saveEditedTopic()">💾 Save</button>
+    <button onclick="closeEditModal()" style="background:rgba(255,255,255,0.2); margin-top:5px;">Cancel</button>
+  </div>
 </div>
 
 <script>
@@ -187,6 +548,23 @@ let syllabus = JSON.parse(localStorage.getItem("syllabus")) || {
   "MLOps": ["Git"]
 };
 
+let currentFilter = "";
+let editingTopic = null;
+let editingCategory = null;
+
+// Load theme preference
+if(localStorage.getItem("theme") === "light"){
+  document.body.classList.add("light-mode");
+  document.querySelector(".theme-toggle").textContent = "☀️";
+}
+
+function toggleTheme(){
+  document.body.classList.toggle("light-mode");
+  const isDark = !document.body.classList.contains("light-mode");
+  localStorage.setItem("theme", isDark ? "dark" : "light");
+  document.querySelector(".theme-toggle").textContent = isDark ? "🌙" : "☀️";
+}
+
 function save(){
   localStorage.setItem("syllabus", JSON.stringify(syllabus));
 }
@@ -194,14 +572,23 @@ function save(){
 function addTopic(){
   let topic = document.getElementById("topicInput").value.trim();
   let cat = document.getElementById("category").value;
+  let note = document.getElementById("noteInput").value.trim();
 
-  if(!topic) return;
+  if(!topic) {
+    alert("Please enter a topic!");
+    return;
+  }
 
   if(!syllabus[cat]) syllabus[cat] = [];
 
-  syllabus[cat].push(topic);
+  syllabus[cat].push({
+    name: topic,
+    note: note,
+    date: new Date().toLocaleDateString()
+  });
 
   document.getElementById("topicInput").value = "";
+  document.getElementById("noteInput").value = "";
 
   save();
   render();
@@ -209,21 +596,204 @@ function addTopic(){
 
 function toggle(cat, topic){
   let key = cat + "-" + topic;
-
   if(localStorage.getItem(key)){
     localStorage.removeItem(key);
   } else {
     localStorage.setItem(key, new Date().toLocaleDateString());
   }
-
   render();
 }
 
 function removeTopic(cat, topic){
-  syllabus[cat] = syllabus[cat].filter(t => t !== topic);
+  syllabus[cat] = syllabus[cat].filter(t => 
+    typeof t === 'string' ? t !== topic : t.name !== topic
+  );
   save();
   localStorage.removeItem(cat + "-" + topic);
   render();
+}
+
+function openEditModal(cat, topic){
+  editingCategory = cat;
+  editingTopic = topic;
+  
+  let topicObj = syllabus[cat].find(t => 
+    typeof t === 'string' ? t === topic : t.name === topic
+  );
+  
+  document.getElementById("editTopicInput").value = typeof topicObj === 'string' ? topicObj : topicObj.name;
+  document.getElementById("editNoteInput").value = typeof topicObj === 'string' ? '' : topicObj.note || '';
+  document.getElementById("editModal").classList.add("show");
+}
+
+function closeEditModal(){
+  document.getElementById("editModal").classList.remove("show");
+  editingTopic = null;
+  editingCategory = null;
+}
+
+function saveEditedTopic(){
+  let newName = document.getElementById("editTopicInput").value.trim();
+  let newNote = document.getElementById("editNoteInput").value.trim();
+
+  if(!newName) {
+    alert("Topic name cannot be empty!");
+    return;
+  }
+
+  let index = syllabus[editingCategory].findIndex(t =>
+    typeof t === 'string' ? t === editingTopic : t.name === editingTopic
+  );
+
+  if(index !== -1){
+    syllabus[editingCategory][index] = {
+      name: newName,
+      note: newNote,
+      date: new Date().toLocaleDateString()
+    };
+  }
+
+  // Update completion key if name changed
+  let oldKey = editingCategory + "-" + editingTopic;
+  let newKey = editingCategory + "-" + newName;
+  if(localStorage.getItem(oldKey)){
+    let value = localStorage.getItem(oldKey);
+    localStorage.removeItem(oldKey);
+    localStorage.setItem(newKey, value);
+  }
+
+  save();
+  closeEditModal();
+  render();
+}
+
+function filterTopics(){
+  currentFilter = document.getElementById("searchInput").value.toLowerCase();
+  render();
+}
+
+function showCategoryFilter(){
+  alert("Use the search box to filter by category name or topic name!");
+}
+
+function exportData(){
+  let data = {
+    syllabus: syllabus,
+    completion: {}
+  };
+
+  // Get all completion data
+  for(let cat in syllabus){
+    syllabus[cat].forEach(topic => {
+      let topicName = typeof topic === 'string' ? topic : topic.name;
+      let key = cat + "-" + topicName;
+      if(localStorage.getItem(key)){
+        data.completion[key] = localStorage.getItem(key);
+      }
+    });
+  }
+
+  let json = JSON.stringify(data, null, 2);
+  let blob = new Blob([json], {type: "application/json"});
+  let url = URL.createObjectURL(blob);
+  let a = document.createElement("a");
+  a.href = url;
+  a.download = "syllabus-backup-" + new Date().toISOString().split('T')[0] + ".json";
+  a.click();
+}
+
+function importData(event){
+  let file = event.target.files[0];
+  if(!file) return;
+
+  let reader = new FileReader();
+  reader.onload = function(e){
+    try{
+      let data = JSON.parse(e.target.result);
+      
+      if(!confirm("This will replace your current syllabus. Continue?")){
+        return;
+      }
+
+      syllabus = data.syllabus;
+      
+      // Restore completion data
+      for(let key in data.completion){
+        localStorage.setItem(key, data.completion[key]);
+      }
+
+      save();
+      render();
+      alert("✅ Data imported successfully!");
+    } catch(err){
+      alert("❌ Error importing file: " + err.message);
+    }
+  };
+  reader.readAsText(file);
+  
+  // Reset file input
+  document.getElementById("importFile").value = "";
+}
+
+function clearAll(){
+  if(!confirm("⚠️ This will delete ALL data. Are you sure?")){
+    return;
+  }
+  
+  syllabus = {
+    "Python": [],
+    "DSA": [],
+    "Core CS": [],
+    "Machine Learning": [],
+    "Deep Learning": [],
+    "NLP": [],
+    "Computer Vision": [],
+    "MLOps": []
+  };
+  
+  localStorage.clear();
+  save();
+  render();
+  alert("✅ All data cleared!");
+}
+
+function renderStats(){
+  let total = 0;
+  let done = 0;
+  let categories = 0;
+
+  for(let cat in syllabus){
+    if(syllabus[cat].length > 0) categories++;
+    syllabus[cat].forEach(topic => {
+      total++;
+      let topicName = typeof topic === 'string' ? topic : topic.name;
+      let key = cat + "-" + topicName;
+      if(localStorage.getItem(key)) done++;
+    });
+  }
+
+  let percent = total ? Math.round((done/total)*100) : 0;
+
+  let html = `
+    <div class="stat-card">
+      <div class="stat-value">${total}</div>
+      <div class="stat-label">Total Topics</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">${done}</div>
+      <div class="stat-label">Completed</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">${percent}%</div>
+      <div class="stat-label">Progress</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">${categories}</div>
+      <div class="stat-label">Categories</div>
+    </div>
+  `;
+
+  document.getElementById("stats").innerHTML = html;
 }
 
 function render(){
@@ -232,44 +802,92 @@ function render(){
   let done = 0;
 
   for(let cat in syllabus){
+    let catTotal = 0;
+    let catDone = 0;
 
-    html += `<div class="card"><h3>${cat}</h3>`;
+    let catHtml = `<div class="card"><h3><span>${cat}</span><span class="category-progress" id="cat-${cat}"></span></h3>`;
 
     syllabus[cat].forEach(topic => {
-
       total++;
+      catTotal++;
 
-      let key = cat + "-" + topic;
+      let topicName = typeof topic === 'string' ? topic : topic.name;
+      let topicNote = typeof topic === 'string' ? '' : topic.note || '';
+      let topicDate = typeof topic === 'string' ? new Date().toLocaleDateString() : topic.date || new Date().toLocaleDateString();
+      
+      let key = cat + "-" + topicName;
       let completed = localStorage.getItem(key);
 
-      if(completed) done++;
+      if(completed) {
+        done++;
+        catDone++;
+      }
 
-      html += `
+      // Filter logic
+      if(currentFilter && 
+         !topicName.toLowerCase().includes(currentFilter) && 
+         !cat.toLowerCase().includes(currentFilter) &&
+         !topicNote.toLowerCase().includes(currentFilter)){
+        return;
+      }
+
+      catHtml += `
       <div class="topic">
         <div class="left">
-          <input type="checkbox" ${completed ? "checked" : ""}
-          onchange="toggle('${cat}','${topic}')">
+          <input type="checkbox" ${completed ? "checked" : ""} 
+          onchange="toggle('${cat}','${topicName}')">
 
-          <div>
-            ${topic}<br>
-            <small>${completed ? "Completed: " + completed : ""}</small>
+          <div class="topic-info">
+            <span class="topic-name" style="text-decoration:${completed ? 'line-through' : 'none'}">${topicName}</span>
+            ${topicNote ? `<div class="topic-note">📝 ${topicNote}</div>` : ''}
+            ${completed ? `<div class="topic-date">✅ Completed: ${completed}</div>` : `<div class="topic-date">Added: ${topicDate}</div>`}
           </div>
         </div>
 
-        <button class="delete" onclick="removeTopic('${cat}','${topic}')">X</button>
+        <div class="topic-actions">
+          <button class="edit-btn" onclick="openEditModal('${cat}','${topicName}')">✏️</button>
+          <button class="delete" onclick="removeTopic('${cat}','${topicName}')">🗑️</button>
+        </div>
       </div>
       `;
     });
 
-    html += "</div>";
+    if(syllabus[cat].length === 0){
+      catHtml += `<div class="empty-state" style="padding:20px;">No topics yet</div>`;
+    }
+
+    catHtml += "</div>";
+
+    if(syllabus[cat].length > 0 || !currentFilter){
+      html += catHtml;
+    }
   }
 
-  document.getElementById("content").innerHTML = html;
+  document.getElementById("content").innerHTML = html || '<div class="empty-state">No topics found</div>';
+
+  // Update category progress indicators
+  for(let cat in syllabus){
+    let catTotal = 0;
+    let catDone = 0;
+
+    syllabus[cat].forEach(topic => {
+      catTotal++;
+      let topicName = typeof topic === 'string' ? topic : topic.name;
+      if(localStorage.getItem(cat + "-" + topicName)) catDone++;
+    });
+
+    if(catTotal > 0){
+      let elem = document.getElementById("cat-" + cat);
+      if(elem) elem.textContent = `${catDone}/${catTotal}`;
+    }
+  }
 
   let percent = total ? Math.round((done/total)*100) : 0;
 
   document.getElementById("progress").style.width = percent + "%";
   document.getElementById("progress").innerText = percent + "%";
+
+  renderStats();
 }
 
 render();
