@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>AI Roadmap Tracker</title>
+<title>Rahul Yadav | AI Engineer Roadmap Tracker</title>
 
 <style>
 *{
@@ -25,6 +25,7 @@ body{
   padding:20px;
 }
 
+/* HEADER */
 h1{
   text-align:center;
   margin:20px 0;
@@ -138,9 +139,15 @@ small{
 
 <div class="container">
 
-<h1>🚀 AI Roadmap Tracker</h1>
+<!-- BRANDING HEADER -->
+<h1>
+  🚀 Rahul Yadav’s AI Roadmap Tracker
+  <span style="font-size:14px;display:block;color:#94a3b8;margin-top:5px;">
+    AI Engineer Roadmap Dashboard
+  </span>
+</h1>
 
-<!-- ADD PANEL -->
+<!-- INPUT PANEL -->
 <div class="panel">
 
   <input id="topicInput" placeholder="Enter new topic (e.g. Transformers, OS, CNN)" />
@@ -202,11 +209,13 @@ function addTopic(){
 
 function toggle(cat, topic){
   let key = cat + "-" + topic;
+
   if(localStorage.getItem(key)){
     localStorage.removeItem(key);
   } else {
     localStorage.setItem(key, new Date().toLocaleDateString());
   }
+
   render();
 }
 
