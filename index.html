@@ -1,98 +1,270 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rahul AI Engineer Roadmap Tracker</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI Roadmap Tracker</title>
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Arial,sans-serif;background:#0f172a;color:#e2e8f0}
-.container{max-width:1100px;margin:auto;padding:20px}
-h1{text-align:center;margin:20px 0}
-.card{background:#1e293b;padding:16px;border-radius:12px;margin:12px 0}
-.progress-wrap{background:#334155;border-radius:999px;overflow:hidden}
-.progress{height:24px;width:0;background:#22c55e;text-align:center;line-height:24px;color:white;font-weight:bold}
-.section-title{margin-bottom:10px}
-.topic{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #334155}
-.topic:last-child{border-bottom:none}
-input[type=search]{width:100%;padding:10px;border-radius:8px;border:none;margin-bottom:15px}
-.date{font-size:12px;color:#94a3b8}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body{
+  background: radial-gradient(circle at top,#0f172a,#020617);
+  color:#e2e8f0;
+  min-height:100vh;
+}
+
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:20px;
+}
+
+h1{
+  text-align:center;
+  margin:20px 0;
+  font-size:30px;
+  background: linear-gradient(90deg,#38bdf8,#22c55e);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+/* INPUT PANEL */
+.panel{
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
+  padding:15px;
+  border-radius:15px;
+  margin-bottom:20px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.4);
+}
+
+input, select{
+  padding:10px;
+  border-radius:10px;
+  border:none;
+  outline:none;
+  margin:5px;
+  width: 100%;
+  background:#0b1220;
+  color:white;
+}
+
+button{
+  padding:10px 14px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  background:linear-gradient(90deg,#22c55e,#38bdf8);
+  color:black;
+  font-weight:bold;
+  margin-top:10px;
+  width:100%;
+  transition:0.3s;
+}
+
+button:hover{
+  transform:scale(1.03);
+}
+
+/* PROGRESS */
+.progress-bar{
+  height:20px;
+  background:#1f2937;
+  border-radius:50px;
+  overflow:hidden;
+  margin-top:10px;
+}
+
+.progress{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#22c55e,#38bdf8);
+  text-align:center;
+  font-size:12px;
+  line-height:20px;
+  transition:0.4s;
+}
+
+/* CARD */
+.card{
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  padding:15px;
+  border-radius:15px;
+  margin:10px 0;
+}
+
+.topic{
+  display:flex;
+  justify-content:space-between;
+  padding:8px;
+  border-bottom:1px solid rgba(255,255,255,0.1);
+  align-items:center;
+}
+
+.topic:last-child{
+  border:none;
+}
+
+.left{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.delete{
+  background:red;
+  border:none;
+  color:white;
+  padding:5px 8px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:12px;
+}
+
+small{
+  color:#94a3b8;
+}
 </style>
 </head>
-<body>
-<div class="container">
-<h1>🚀 Rahul AI Engineer Tracker</h1>
 
-<div class="card">
-<input type="search" id="search" placeholder="Search topics...">
-<div class="progress-wrap"><div id="progress" class="progress">0%</div></div>
+<body>
+
+<div class="container">
+
+<h1>🚀 AI Roadmap Tracker</h1>
+
+<!-- ADD PANEL -->
+<div class="panel">
+
+  <input id="topicInput" placeholder="Enter new topic (e.g. Transformers, OS, CNN)" />
+
+  <select id="category">
+    <option>Python</option>
+    <option>DSA</option>
+    <option>Core CS</option>
+    <option>Machine Learning</option>
+    <option>Deep Learning</option>
+    <option>NLP</option>
+    <option>Computer Vision</option>
+    <option>MLOps</option>
+  </select>
+
+  <button onclick="addTopic()">➕ Add Topic</button>
+
+  <div class="progress-bar">
+    <div id="progress" class="progress">0%</div>
+  </div>
+
 </div>
 
 <div id="content"></div>
+
 </div>
 
 <script>
-const syllabus={
-"Python":["Basics","OOP","File Handling","Modules","Libraries"],
-"DSA":["Arrays","Linked Lists","Stacks","Queues","Trees","Graphs","DP"],
-"Core CS":["DBMS","OS","Computer Networks"],
-"Machine Learning":["Linear Regression","Logistic Regression","KNN","SVM"],
-"Deep Learning":["Neural Networks","CNN","RNN","Transformers"],
-"NLP":["Tokenization","Embeddings","BERT"],
-"Computer Vision":["OpenCV","Image Processing","YOLO"],
-"MLOps":["Git","Docker","CI/CD","Deployment"]
+let syllabus = JSON.parse(localStorage.getItem("syllabus")) || {
+  "Python": ["Basics","OOP"],
+  "DSA": ["Arrays","Linked Lists"],
+  "Core CS": ["DBMS","OS"],
+  "Machine Learning": ["Linear Regression"],
+  "Deep Learning": ["Neural Networks"],
+  "NLP": ["Tokenization"],
+  "Computer Vision": ["OpenCV"],
+  "MLOps": ["Git"]
 };
 
+function save(){
+  localStorage.setItem("syllabus", JSON.stringify(syllabus));
+}
+
+function addTopic(){
+  let topic = document.getElementById("topicInput").value.trim();
+  let cat = document.getElementById("category").value;
+
+  if(!topic) return;
+
+  if(!syllabus[cat]) syllabus[cat] = [];
+
+  syllabus[cat].push(topic);
+
+  document.getElementById("topicInput").value = "";
+
+  save();
+  render();
+}
+
+function toggle(cat, topic){
+  let key = cat + "-" + topic;
+  if(localStorage.getItem(key)){
+    localStorage.removeItem(key);
+  } else {
+    localStorage.setItem(key, new Date().toLocaleDateString());
+  }
+  render();
+}
+
+function removeTopic(cat, topic){
+  syllabus[cat] = syllabus[cat].filter(t => t !== topic);
+  save();
+  localStorage.removeItem(cat + "-" + topic);
+  render();
+}
+
 function render(){
-let html="";
-let total=0,done=0;
-const q=document.getElementById("search").value.toLowerCase();
+  let html = "";
+  let total = 0;
+  let done = 0;
 
-for(const section in syllabus){
- let topics=syllabus[section].filter(t=>t.toLowerCase().includes(q));
- if(!topics.length) continue;
+  for(let cat in syllabus){
 
- html+=`<div class="card"><h2 class="section-title">${section}</h2>`;
+    html += `<div class="card"><h3>${cat}</h3>`;
 
- topics.forEach(topic=>{
-   total++;
-   let key=section+"-"+topic;
-   let data=localStorage.getItem(key);
-   if(data) done++;
+    syllabus[cat].forEach(topic => {
 
-   html+=`
-   <div class="topic">
-    <div>
-      <input type="checkbox" ${data?"checked":""}
-      onchange="toggle('${key}')">
-      ${topic}
-    </div>
-    <div class="date">${data?("Completed: "+data):""}</div>
-   </div>`;
- });
+      total++;
 
- html+="</div>";
+      let key = cat + "-" + topic;
+      let completed = localStorage.getItem(key);
+
+      if(completed) done++;
+
+      html += `
+      <div class="topic">
+        <div class="left">
+          <input type="checkbox" ${completed ? "checked" : ""}
+          onchange="toggle('${cat}','${topic}')">
+
+          <div>
+            ${topic}<br>
+            <small>${completed ? "Completed: " + completed : ""}</small>
+          </div>
+        </div>
+
+        <button class="delete" onclick="removeTopic('${cat}','${topic}')">X</button>
+      </div>
+      `;
+    });
+
+    html += "</div>";
+  }
+
+  document.getElementById("content").innerHTML = html;
+
+  let percent = total ? Math.round((done/total)*100) : 0;
+
+  document.getElementById("progress").style.width = percent + "%";
+  document.getElementById("progress").innerText = percent + "%";
 }
 
-document.getElementById("content").innerHTML=html;
-
-let percent=total?Math.round(done/total*100):0;
-let p=document.getElementById("progress");
-p.style.width=percent+"%";
-p.textContent=percent+"%";
-}
-
-function toggle(key){
- if(localStorage.getItem(key)){
-   localStorage.removeItem(key);
- }else{
-   localStorage.setItem(key,new Date().toLocaleDateString());
- }
- render();
-}
-
-document.getElementById("search").addEventListener("input",render);
 render();
 </script>
+
 </body>
 </html>
