@@ -1,169 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rahul AI Engineer Tracker</title>
-
-<style>
-body{
-    font-family: Arial, sans-serif;
-    background:#f4f4f4;
-    margin:0;
-    padding:20px;
-}
-
-.container{
-    max-width:900px;
-    margin:auto;
-}
-
-h1{
-    text-align:center;
-    color:#333;
-}
-
-.progress-container{
-    width:100%;
-    background:#ddd;
-    border-radius:20px;
-    overflow:hidden;
-    margin-bottom:20px;
-}
-
-.progress-bar{
-    height:25px;
-    width:0%;
-    background:#28a745;
-    color:white;
-    text-align:center;
-    line-height:25px;
-}
-
-.section{
-    background:white;
-    padding:15px;
-    margin-bottom:15px;
-    border-radius:10px;
-    box-shadow:0 2px 5px rgba(0,0,0,0.1);
-}
-
-.topic{
-    padding:8px;
-}
-
-.date{
-    color:gray;
-    font-size:12px;
-    margin-left:10px;
-}
-</style>
+  <meta charset="UTF-8">
+  <title>Rahul Qualifications</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #fce4ec);
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+    h2 {
+      color: #34495e;
+      margin-top: 30px;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+    }
+    .task {
+      background: #fff;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+    .task:hover {
+      transform: scale(1.02);
+    }
+    .completed {
+      border-left: 6px solid #27ae60;
+      background: #ecf9f1;
+    }
+    label {
+      margin-right: 10px;
+      font-weight: bold;
+    }
+    input[type="text"], input[type="date"] {
+      padding: 8px;
+      margin-right: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      padding: 8px 14px;
+      background: #2980b9;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #1c5980;
+    }
+    #progressBar {
+      width: 100%;
+      background: #ddd;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+    #progress {
+      height: 20px;
+      width: 0%;
+      background: #27ae60;
+      border-radius: 10px;
+      text-align: center;
+      color: white;
+      font-size: 12px;
+    }
+  </style>
 </head>
 <body>
+  <div class="container">
+    <h1>Rahul Qualifications - AI Engineer Syllabus Tracker</h1>
 
-<div class="container">
-
-<h1>🚀 Rahul AI Engineer Syllabus Tracker</h1>
-
-<div class="progress-container">
-    <div class="progress-bar" id="progressBar">0%</div>
-</div>
-
-<div class="section">
-    <h2>DSA</h2>
-
-    <div class="topic">
-        <input type="checkbox" onchange="markComplete(this,'Arrays')">
-        Arrays
-        <span id="Arrays" class="date"></span>
+    <!-- Progress Bar -->
+    <div id="progressBar">
+      <div id="progress">0%</div>
     </div>
 
-    <div class="topic">
-        <input type="checkbox" onchange="markComplete(this,'LinkedList')">
-        Linked List
-        <span id="LinkedList" class="date"></span>
+    <!-- Add new topic section -->
+    <div>
+      <label>Topic Cleared:</label>
+      <input type="text" id="topic" placeholder="e.g. DSA Arrays">
+      <label>Date:</label>
+      <input type="date" id="date">
+      <button onclick="addTask()">Add</button>
     </div>
 
-    <div class="topic">
-        <input type="checkbox" onchange="markComplete(this,'Trees')">
-        Trees
-        <span id="Trees" class="date"></span>
+    <!-- Pre-listed syllabus topics -->
+    <h2>Pre-listed Topics</h2>
+    <div id="list">
+      <div class="task"><strong>DSA Basics</strong> - Pending</div>
+      <div class="task"><strong>Advanced DSA (Graphs, DP)</strong> - Pending</div>
+      <div class="task"><strong>Core CS Subjects (OS, DBMS, CN)</strong> - Pending</div>
+      <div class="task"><strong>Python Fundamentals</strong> - Pending</div>
+      <div class="task"><strong>Machine Learning Basics</strong> - Pending</div>
+      <div class="task"><strong>Deep Learning (TensorFlow/PyTorch)</strong> - Pending</div>
+      <div class="task"><strong>SQL & Data Handling</strong> - Pending</div>
+      <div class="task"><strong>NLP</strong> - Pending</div>
+      <div class="task"><strong>Computer Vision</strong> - Pending</div>
+      <div class="task"><strong>Cloud & MLOps</strong> - Pending</div>
     </div>
-</div>
+  </div>
 
-<div class="section">
-    <h2>Python</h2>
+  <script>
+    let completedCount = 0;
+    let totalCount = document.querySelectorAll('#list .task').length;
 
-    <div class="topic">
-        <input type="checkbox" onchange="markComplete(this,'Basics')">
-        Basics
-        <span id="Basics" class="date"></span>
-    </div>
-
-    <div class="topic">
-        <input type="checkbox" onchange="markComplete(this,'OOP')">
-        OOP
-        <span id="OOP" class="date"></span>
-    </div>
-
-    <div class="topic">
-        <input type="checkbox" onchange="markComplete(this,'FileHandling')">
-        File Handling
-        <span id="FileHandling" class="date"></span>
-    </div>
-</div>
-
-</div>
-
-<script>
-function markComplete(box,id){
-
-    let dateSpan=document.getElementById(id);
-
-    if(box.checked){
-        let date=new Date().toLocaleDateString();
-        dateSpan.innerHTML="Completed: "+date;
-        localStorage.setItem(id,date);
-    }else{
-        dateSpan.innerHTML="";
-        localStorage.removeItem(id);
+    function updateProgress() {
+      const percent = Math.round((completedCount / totalCount) * 100);
+      const progress = document.getElementById('progress');
+      progress.style.width = percent + '%';
+      progress.textContent = percent + '%';
     }
 
+    function addTask() {
+      const topic = document.getElementById('topic').value;
+      const date = document.getElementById('date').value;
+
+      if(topic && date) {
+        const div = document.createElement('div');
+        div.className = 'task completed';
+        div.innerHTML = `<strong>${topic}</strong> - Cleared on <em>${date}</em>`;
+        document.getElementById('list').appendChild(div);
+
+        completedCount++;
+        totalCount++;
+        updateProgress();
+
+        // Clear inputs
+        document.getElementById('topic').value = '';
+        document.getElementById('date').value = '';
+      } else {
+        alert("Please enter both topic and date!");
+      }
+    }
+
+    // Initial progress
     updateProgress();
-}
-
-function updateProgress(){
-
-    let total=document.querySelectorAll("input[type='checkbox']").length;
-    let completed=document.querySelectorAll("input[type='checkbox']:checked").length;
-
-    let percent=Math.round((completed/total)*100);
-
-    let bar=document.getElementById("progressBar");
-
-    bar.style.width=percent+"%";
-    bar.innerHTML=percent+"%";
-}
-
-window.onload=function(){
-
-    document.querySelectorAll("input[type='checkbox']").forEach(function(box){
-
-        let id=box.getAttribute("onchange")
-        .match(/'([^']+)'/)[1];
-
-        let savedDate=localStorage.getItem(id);
-
-        if(savedDate){
-            box.checked=true;
-            document.getElementById(id).innerHTML=
-            "Completed: "+savedDate;
-        }
-    });
-
-    updateProgress();
-}
-</script>
-
+  </script>
 </body>
 </html>
