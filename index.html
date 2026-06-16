@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>AI Roadmap Tracker</title>
+<title>Rahul's AI Roadmap Tracker</title>
 
 <style>
 *{
@@ -36,15 +36,33 @@ body.light-mode{
   justify-content:space-between;
   align-items:center;
   margin-bottom:20px;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.header-left{
+  flex:1;
+  min-width:200px;
 }
 
 h1{
   text-align:center;
-  flex:1;
   font-size:30px;
   background: linear-gradient(90deg,#38bdf8,#22c55e);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
+  margin-bottom:5px;
+}
+
+.user-name{
+  text-align:center;
+  font-size:14px;
+  color:#94a3b8;
+  font-style:italic;
+}
+
+body.light-mode .user-name{
+  color:#64748b;
 }
 
 .theme-toggle{
@@ -474,7 +492,10 @@ body.light-mode .empty-state{
 <div class="container">
 
 <div class="header">
-  <h1>🚀 AI Roadmap Tracker</h1>
+  <div class="header-left">
+    <h1>🚀 AI Roadmap Tracker</h1>
+    <div class="user-name">📚 Rahul Yadav's Learning Journey</div>
+  </div>
   <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark/light mode">🌙</button>
 </div>
 
@@ -538,14 +559,67 @@ body.light-mode .empty-state{
 
 <script>
 let syllabus = JSON.parse(localStorage.getItem("syllabus")) || {
-  "Python": ["Basics","OOP"],
-  "DSA": ["Arrays","Linked Lists"],
-  "Core CS": ["DBMS","OS"],
-  "Machine Learning": ["Linear Regression"],
-  "Deep Learning": ["Neural Networks"],
-  "NLP": ["Tokenization"],
-  "Computer Vision": ["OpenCV"],
-  "MLOps": ["Git"]
+  "Python": [
+    { name: "Basics", note: "Variables, Data Types, Operators, Control Flow" },
+    { name: "OOP", note: "Classes, Objects, Inheritance, Polymorphism, Encapsulation" },
+    { name: "Functions & Modules", note: "Lambda, Decorators, *args, **kwargs" },
+    { name: "File Handling", note: "Read/Write, JSON, CSV" },
+    { name: "Error Handling", note: "Try-Except, Custom Exceptions" }
+  ],
+  "DSA": [
+    { name: "Arrays", note: "2D Arrays, Sorting, Searching" },
+    { name: "Linked Lists", note: "Singly, Doubly, Circular" },
+    { name: "Stacks & Queues", note: "Implementation, Applications" },
+    { name: "Trees", note: "Binary Trees, BST, AVL, Traversal" },
+    { name: "Graphs", note: "BFS, DFS, Dijkstra, Floyd-Warshall" },
+    { name: "Hashing", note: "Hash Tables, Collision Handling" }
+  ],
+  "Core CS": [
+    { name: "DBMS", note: "SQL, Normalization, Indexing, Transactions" },
+    { name: "OS", note: "Process Management, Memory, Scheduling, Deadlocks" },
+    { name: "Networking", note: "TCP/IP, HTTP, DNS, SSL/TLS" },
+    { name: "System Design", note: "Scalability, Load Balancing, Caching" }
+  ],
+  "Machine Learning": [
+    { name: "Linear Regression", note: "OLS, Multiple Regression, Regularization" },
+    { name: "Logistic Regression", note: "Binary Classification, Multi-class" },
+    { name: "Decision Trees", note: "Information Gain, Pruning, Ensemble Methods" },
+    { name: "SVM", note: "Kernel Methods, Support Vectors" },
+    { name: "Unsupervised Learning", note: "K-Means, Hierarchical Clustering, PCA" },
+    { name: "Model Evaluation", note: "Confusion Matrix, ROC-AUC, Cross-validation" }
+  ],
+  "Deep Learning": [
+    { name: "Neural Networks", note: "Perceptrons, Backpropagation, Activation Functions" },
+    { name: "CNN", note: "Convolution, Pooling, ResNet, VGG" },
+    { name: "RNN", note: "LSTM, GRU, Sequence Models, Time Series" },
+    { name: "Transformers", note: "Attention, Self-Attention, BERT, Vision Transformer" },
+    { name: "GANs", note: "Generator, Discriminator, Training Dynamics" },
+    { name: "Optimization", note: "SGD, Adam, Learning Rate Scheduling" }
+  ],
+  "NLP": [
+    { name: "Tokenization", note: "Word, Subword, BPE, SentencePiece" },
+    { name: "Word Embeddings", note: "Word2Vec, GloVe, FastText" },
+    { name: "Text Classification", note: "Sentiment Analysis, Topic Modeling" },
+    { name: "Named Entity Recognition", note: "NER Models, CRF, Sequence Labeling" },
+    { name: "Machine Translation", note: "Seq2Seq, Attention, Transformer-based MT" },
+    { name: "Question Answering", note: "Reading Comprehension, SQuAD" }
+  ],
+  "Computer Vision": [
+    { name: "Image Processing", note: "Filters, Edge Detection, OpenCV Basics" },
+    { name: "Object Detection", note: "YOLO, R-CNN, SSD, Faster R-CNN" },
+    { name: "Image Classification", note: "ImageNet, Transfer Learning, Fine-tuning" },
+    { name: "Semantic Segmentation", note: "FCN, U-Net, DeepLab" },
+    { name: "Pose Estimation", note: "Keypoint Detection, OpenPose" },
+    { name: "Face Recognition", note: "Face Detection, Verification, Identification" }
+  ],
+  "MLOps": [
+    { name: "Version Control", note: "Git, GitHub, Branching Strategies" },
+    { name: "CI/CD", note: "GitHub Actions, Jenkins, GitLab CI" },
+    { name: "Model Deployment", note: "Docker, Kubernetes, REST APIs" },
+    { name: "Monitoring & Logging", note: "Prometheus, ELK Stack, Grafana" },
+    { name: "Model Management", note: "MLflow, DVC, Model Registry" },
+    { name: "Infrastructure", note: "AWS, GCP, Azure, Serverless" }
+  ]
 };
 
 let currentFilter = "";
@@ -679,7 +753,9 @@ function showCategoryFilter(){
 function exportData(){
   let data = {
     syllabus: syllabus,
-    completion: {}
+    completion: {},
+    userName: "Rahul Yadav",
+    exportDate: new Date().toISOString()
   };
 
   // Get all completion data
@@ -698,7 +774,7 @@ function exportData(){
   let url = URL.createObjectURL(blob);
   let a = document.createElement("a");
   a.href = url;
-  a.download = "syllabus-backup-" + new Date().toISOString().split('T')[0] + ".json";
+  a.download = "rahul-syllabus-backup-" + new Date().toISOString().split('T')[0] + ".json";
   a.click();
 }
 
